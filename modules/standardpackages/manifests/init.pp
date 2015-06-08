@@ -11,4 +11,7 @@ class standardpackages {
   package { 'strace':
     ensure => present
   }
+  package { 'etckeeper':
+    ensure => present
+  }
 }
