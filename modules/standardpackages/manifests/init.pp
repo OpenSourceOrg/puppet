@@ -1,17 +1,15 @@
 class standardpackages {
-  package { 'moreutils': # Required for sponge (used in mailman module)
-    ensure => present
-  }
-  package { 'bash-completion':
-    ensure => present
-  }
-  package { 'vim-nox':
-    ensure => present
-  }
-  package { 'strace':
-    ensure => present
-  }
-  package { 'etckeeper':
-    ensure => present
+  $pkglist = [
+              'moreutils', # Used by mailman::configentry
+              'bash-completion',
+              'vim-nox',
+              'strace',
+              'etckeeper',
+              ]
+
+  $pkglist.each |$p| {
+    package { $p:
+      ensure => present
+    }
   }
 }

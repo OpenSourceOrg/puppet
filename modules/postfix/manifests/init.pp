@@ -8,9 +8,9 @@ class postfix ($use_mailman = false, $destinations = []) {
   }
 
   if $use_mailman {
-    $alias_maps = [ 'hash:/etc/aliases, hash:/var/lib/mailman/data/aliases' ]
+    $alias_maps = 'hash:/etc/aliases, hash:/var/lib/mailman/data/aliases'
   } else {
-    $alias_maps = [ 'hash:/etc/aliases' ]
+    $alias_maps = 'hash:/etc/aliases'
   }
 
   $defaultdests = ['$mydomain', '$myhostname', 'localhost', 'localhost.localdomain']
