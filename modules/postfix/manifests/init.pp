@@ -1,4 +1,4 @@
-class postfix ($use_mailman = false) {
+class postfix ($use_mailman = false, $destinations = []) {
   package { 'postfix':
     ensure => present
   }
@@ -13,6 +13,9 @@ class postfix ($use_mailman = false) {
     $alias_maps = [ 'hash:/etc/aliases' ]
   }
 
+  $defaultdests = ['$mydomain', '$myhostname', 'localhost', 'localhost.localdomain']
+  $mydestinations = inline_template('<%= (@defaultdests+@destinations).join(", ") %>')
+
   augeas { '/etc/postfix/main.cf-main':
     context => '/files/etc/postfix/main.cf',
     changes => [
@@ -22,7 +25,7 @@ class postfix ($use_mailman = false) {
                 "set inet_protocols all",
                 "set empty_address_recipient catchall",
                 "set broken_sasl_auth_clients yes",
-                'set mydestination "$mydomain, $myhostname, projects.opensource.org, mail.opensource.org, localhost, localhost.localdomain"',
+                "set mydestination '$mydestinations'",
                 "rm relayhost",
                 "set smtpd_sender_restrictions reject_unknown_sender_domain",
                 "set smtpd_use_tls yes",
