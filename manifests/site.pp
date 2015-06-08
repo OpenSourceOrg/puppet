@@ -12,7 +12,7 @@ node 'gpl' {
   }
 
   class { 'apache2':
-    use_mailman => true,
+    use_php => true,
   }
 
   apache2::virtualhost { 'gpl.opensource.org':
