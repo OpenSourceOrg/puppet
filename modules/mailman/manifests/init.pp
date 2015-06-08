@@ -1,4 +1,4 @@
-class mailman {
+class mailman ($emailhost, $webhost) {
   package { 'mailman':
     ensure => present
   }
@@ -8,10 +8,10 @@ class mailman {
   }
 
   mailman::configentry { 'DEFAULT_EMAIL_HOST':
-    value => '"opensource.org"'
+    value => "\"$emailhost\""
   }
   mailman::configentry { 'DEFAULT_URL_HOST':
-    value => '"projects.opensource.org"'
+    value => "\"$webhost\""
   }
   mailman::configentry { 'MTA':
     value => '"Postfix"'
