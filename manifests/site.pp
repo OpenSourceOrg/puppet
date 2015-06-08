@@ -10,4 +10,13 @@ node 'gpl' {
     emailhost => 'opensource.org',
     webhost => 'projects.opensource.org'
   }
+
+  class { 'apache2':
+    use_mailman => true,
+  }
+
+  apache2::virtualhost { 'gpl.opensource.org':
+    shortname => 'gpl'
+  }
+  apache2::module { 'cgi': }
 }
