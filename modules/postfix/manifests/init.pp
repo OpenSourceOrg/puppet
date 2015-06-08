@@ -18,10 +18,15 @@ class postfix ($use_mailman = false) {
     changes => [
                 "set alias_maps '$alias_maps'",
                 "set alias_database '$alias_maps'",
+                "set myorigin /etc/mailname",
                 ],
     lens => 'Postfix_Main.lns',
     incl => '/etc/postfix/main.cf',
     require => Package['postfix'],
     notify => Service['postfix'],
+  }
+
+  file { '/etc/mailname':
+    content => "$fqdn\n"
   }
 }
