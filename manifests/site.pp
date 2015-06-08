@@ -1,3 +1,5 @@
 node 'gpl' {
-  include postfix
+  class { 'postfix':
+    use_mailman => true
+  }
 }
