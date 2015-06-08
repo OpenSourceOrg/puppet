@@ -1,5 +1,3 @@
 node 'gpl' {
-  file { '/root/test-puppet':
-    ensure => present
-  }
+  include postfix
 }
