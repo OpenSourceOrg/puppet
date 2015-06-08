@@ -1,5 +1,5 @@
 node 'gpl' {
   class { 'postfix':
-    use_mailman => true
+    use_mailman => false # Until mailman is configured
   }
 }
