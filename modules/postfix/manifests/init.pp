@@ -26,7 +26,7 @@ class postfix ($use_mailman = false) {
                 "rm relayhost",
                 "set smtpd_sender_restrictions reject_unknown_sender_domain",
                 "set smtpd_use_tls yes",
-                "set home_mailbox = Maildir/",
+                "set home_mailbox Maildir/",
                 ],
     lens => 'Postfix_Main.lns',
     incl => '/etc/postfix/main.cf',
