@@ -15,8 +15,12 @@ node 'gpl' {
     use_php => true,
   }
 
+  apache2::module { 'cgi': }
   apache2::virtualhost { 'gpl.opensource.org':
     shortname => 'gpl'
   }
-  apache2::module { 'cgi': }
+
+  apache2::virtualhost { 'opensource.org':
+    shortname => 'opensource'
+  }
 }
