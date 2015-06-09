@@ -23,4 +23,12 @@ node 'gpl' {
   apache2::virtualhost { 'opensource.org':
     shortname => 'opensource'
   }
+
+  $mailaliases = hiera('mailaliases')
+  $mailaliases.each |$k, $v| {
+    mailalias { "$k":
+      ensure => present,
+      recipient => "$v",
+    }
+  }
 }

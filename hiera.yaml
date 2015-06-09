@@ -1,0 +1,8 @@
+---
+:backends:
+  - yaml
+:yaml:
+  :datadir: "%{::settings::modulepath}/../hieradata"
+:hierarchy:
+  - "data/%{::hostname}"
+  - common
