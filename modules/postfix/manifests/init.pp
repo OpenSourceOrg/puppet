@@ -58,11 +58,39 @@ class postfix ($use_mailman = false, $destinations = []) {
     changes => [
                 "set ENABLED 1",
                 "set CRON 1",
+                "set OPTIONS '\"--create-prefs --max-children 5 --helper-home-dir --username debian-spamd\"'",
                 ],
     lens => 'Shellvars.lns',
     incl => '/etc/default/spamassassin',
     require => Package['spamassassin'],
     notify => Service['spamassassin'],
+  }
+  file { '/etc/spamassassin/puppet.cf':
+    content => 'rewrite_header Subject *****SPAM*****
+report_safe 1
+whitelist_from webmink@opensource.org
+whitelist_from acoliver@gmail.com
+whitelist_from acoliver@osintegrators.com
+whitelist_from pe.schmitz@googlemail.com
+whitelist_from *@jirafa.cyrius.com
+whitelist_from fontana@sharpeleven.org
+whitelist_from zack@opensource.org
+whitelist_from zack@upsilon.cc
+whitelist_from marcin@kierdelewicz.com
+whitelist_from webmaster@in-cubator.org
+loadplugin Mail::SpamAssassin::Plugin::Pyzor
+pyzor_options --homedir /etc/spamassassin/.pyzor
+',
+    notify => Service['spamassassin'],
+  }
+  package { 'pyzor':
+    ensure => present,
+    notify => Exec['pyzor-discover'],
+  }
+  exec { 'pyzor-discover':
+    path => "/usr/sbin:/usr/bin:/sbin:/bin",
+    command => "mkdir -p /etc/spamassassin/.pyzor && chown -R debian-spamd /etc/spamassassin/.pyzor && su - debian-spamd -c 'pyzor --homedir /etc/spamassassin/.pyzor discover'",
+    require => Package['spamassassin']
   }
   postfix::postconf { 'smtp':
     type => 'inet',
