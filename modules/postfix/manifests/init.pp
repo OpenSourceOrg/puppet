@@ -55,7 +55,10 @@ class postfix ($use_mailman = false, $destinations = []) {
   }
   augeas { '/etc/default/spamassassin':
     context => '/files/etc/default/spamassassin',
-    changes => "set ENABLED 1",
+    changes => [
+                "set ENABLED 1",
+                "set CRON 1",
+                ],
     lens => 'Shellvars.lns',
     incl => '/etc/default/spamassassin',
     require => Package['spamassassin'],
