@@ -66,21 +66,7 @@ class postfix ($use_mailman = false, $destinations = []) {
     notify => Service['spamassassin'],
   }
   file { '/etc/spamassassin/puppet.cf':
-    content => 'rewrite_header Subject *****SPAM*****
-report_safe 1
-whitelist_from webmink@opensource.org
-whitelist_from acoliver@gmail.com
-whitelist_from acoliver@osintegrators.com
-whitelist_from pe.schmitz@googlemail.com
-whitelist_from *@jirafa.cyrius.com
-whitelist_from fontana@sharpeleven.org
-whitelist_from zack@opensource.org
-whitelist_from zack@upsilon.cc
-whitelist_from marcin@kierdelewicz.com
-whitelist_from webmaster@in-cubator.org
-loadplugin Mail::SpamAssassin::Plugin::Pyzor
-pyzor_options --homedir /etc/spamassassin/.pyzor
-',
+    source => 'puppet:///modules/postfix/spamassassin-config',
     notify => Service['spamassassin'],
   }
   package { 'pyzor':
@@ -90,7 +76,8 @@ pyzor_options --homedir /etc/spamassassin/.pyzor
   exec { 'pyzor-discover':
     path => "/usr/sbin:/usr/bin:/sbin:/bin",
     command => "mkdir -p /etc/spamassassin/.pyzor && chown -R debian-spamd /etc/spamassassin/.pyzor && su - debian-spamd -c 'pyzor --homedir /etc/spamassassin/.pyzor discover'",
-    require => Package['spamassassin']
+    require => Package['spamassassin'],
+    refreshonly => true,
   }
   postfix::postconf { 'smtp':
     type => 'inet',
