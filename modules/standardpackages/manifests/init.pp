@@ -5,6 +5,7 @@ class standardpackages {
               'vim-nox',
               'strace', # For debugging
               'etckeeper',
+              'mutt',
               ]
 
   $pkglist.each |$p| {
