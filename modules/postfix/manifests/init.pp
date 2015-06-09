@@ -66,7 +66,7 @@ class postfix ($use_mailman = false, $destinations = []) {
     value => 'smtp      inet  n       -       -       -       -       smtpd        -o content_filter=spamassassin'
   }
   postfix::postconf { 'spamassassin/unix':
-    value => 'spamassassin unix -     n       n       -       -       pipe        user=spamd argv=/usr/bin/spamc -f -e          /usr/sbin/sendmail -oi -f ${sender} ${recipient}'
+    value => 'spamassassin unix -     n       n       -       -       pipe        user=debian-spamd argv=/usr/bin/spamc -f -e          /usr/sbin/sendmail -oi -f ${sender} ${recipient}'
   }
 
 }
