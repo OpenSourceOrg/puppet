@@ -1,2 +1,10 @@
 ---
 mailaliases: {}
+
+packages:
+  - moreutils # Used by mailman::configentry
+  - bash-completion
+  - vim-nox
+  - strace
+  - etckeeper
+  - mutt
