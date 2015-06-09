@@ -4,7 +4,7 @@ class postfix ($use_mailman = false, $destinations = []) {
   }
   service { 'postfix':
     ensure => running,
-    require => Package['postfix']
+    require => Package['postfix'],
   }
 
   file { '/etc/mailname':
@@ -50,7 +50,6 @@ class postfix ($use_mailman = false, $destinations = []) {
     ensure => running,
     require => [
                 Package['spamassassin'],
-                Augeas['/etc/default/spamassassin'],
                 ]
   }
   augeas { '/etc/default/spamassassin':
@@ -64,17 +63,17 @@ class postfix ($use_mailman = false, $destinations = []) {
     require => Package['spamassassin'],
     notify => Service['spamassassin'],
   }
-
   postfix::postconf { 'smtp':
     type => 'inet',
     private => 'n',
-    command => 'smtpd -o content_filter=spamassassinauie'
+    command => 'smtpd -o content_filter=spamassassin',
+    require => Service['spamassassin']
   }
   postfix::postconf { 'spamassassin':
     type => 'unix',
     unpriv => 'n',
     chroot => 'n',
-    command => 'pipe user=debian-spamd argv=/usr/bin/spamc -f -e /usr/sbin/sendmail -oi -f ${sender} ${recipient}'
+    command => 'pipe user=debian-spamd argv=/usr/bin/spamc -f -e /usr/sbin/sendmail -oi -f ${sender} ${recipient}',
+    require => Service['spamassassin']
   }
-
 }
