@@ -5,4 +5,4 @@
   :datadir: "%{::settings::modulepath}/../hieradata"
 :hierarchy:
   - "data/%{::hostname}"
-  - common
+  - defaults
