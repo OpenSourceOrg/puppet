@@ -7,6 +7,10 @@ class postfix ($use_mailman = false, $destinations = []) {
     require => Package['postfix']
   }
 
+  file { '/etc/mailname':
+    content => "$fqdn\n"
+  }
+
   if $use_mailman {
     $alias_maps = 'hash:/etc/aliases, hash:/var/lib/mailman/data/aliases'
   } else {
@@ -39,7 +43,22 @@ class postfix ($use_mailman = false, $destinations = []) {
     notify => Service['postfix'],
   }
 
-  file { '/etc/mailname':
-    content => "$fqdn\n"
+  package { 'spamassassin':
+    ensure => present
+  }
+  service { 'spamassassin':
+    ensure => running,
+    require => [
+                Package['spamassassin'],
+                Augeas['/etc/default/spamassassin'],
+                ]
+  }
+  augeas { '/etc/default/spamassassin':
+    context => '/files/etc/default/spamassassin',
+    changes => "set ENABLED 1",
+    lens => 'Shellvars.lns',
+    incl => '/etc/default/spamassassin',
+    require => Package['spamassassin'],
+    notify => Service['spamassassin'],
   }
 }
