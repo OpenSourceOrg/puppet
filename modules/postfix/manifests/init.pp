@@ -61,4 +61,12 @@ class postfix ($use_mailman = false, $destinations = []) {
     require => Package['spamassassin'],
     notify => Service['spamassassin'],
   }
+
+  postfix::postconf { 'smtp/inet':
+    value => 'smtp      inet  n       -       -       -       -       smtpd        -o content_filter=spamassassin'
+  }
+  postfix::postconf { 'spamassassin/unix':
+    value => 'spamassassin unix -     n       n       -       -       pipe        user=spamd argv=/usr/bin/spamc -f -e          /usr/sbin/sendmail -oi -f ${sender} ${recipient}'
+  }
+
 }
