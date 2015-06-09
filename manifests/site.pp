@@ -28,7 +28,11 @@ node 'gpl' {
   $mailaliases.each |$k, $v| {
     mailalias { "$k":
       ensure => present,
-      recipient => "$v",
+      recipient => $v,
+      notify => Exec['/usr/bin/newaliases'],
     }
+  }
+  exec { '/usr/bin/newaliases':
+    refreshonly => true
   }
 }
