@@ -3,7 +3,7 @@ class standardpackages {
               'moreutils', # Used by mailman::configentry
               'bash-completion',
               'vim-nox',
-              'strace',
+              'strace', # For debugging
               'etckeeper',
               ]
 
