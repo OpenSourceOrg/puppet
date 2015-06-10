@@ -1,5 +1,6 @@
 ---
 mailaliases: {}
+smtpauthusers: {}
 
 packages:
   - moreutils # Used by mailman::configentry

@@ -3,7 +3,8 @@ node 'gpl' {
 
   class { 'postfix':
     use_mailman => true,
-    destinations => ['projects.opensource.org', 'mail.opensource.org', 'opensource.org']
+    destinations => ['projects.opensource.org', 'mail.opensource.org', 'opensource.org'],
+    use_smtp_auth => true,
   }
 
   class { 'mailman':

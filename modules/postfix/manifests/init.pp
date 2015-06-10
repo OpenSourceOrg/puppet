@@ -1,4 +1,4 @@
-class postfix ($use_mailman = false, $destinations = []) {
+class postfix ($use_mailman = false, $destinations = [], $use_smtp_auth = false) {
   package { 'postfix':
     ensure => present
   }
@@ -132,5 +132,52 @@ class postfix ($use_mailman = false, $destinations = []) {
     -o smtpd_client_connection_count_limit=0
     -o smtpd_client_connection_rate_limit=0
     -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks'
+  }
+
+  if $use_smtp_auth {
+    class { 'dovecot': }
+
+    $smtpauthusers = hiera('smtpauthusers')
+    $smtpauthusers.each |$h, $v| { dovecot::authuser { "$h": password => "$v" } }
+
+    augeas { '/etc/postfix/main.cf-sasl':
+      context => '/files/etc/postfix/main.cf',
+      changes => [
+                  "set smtpd_sasl_type dovecot",
+                  "set smtpd_sasl_path private/auth",
+                  "set smtpd_sasl_auth_enable yes",
+                  ],
+      lens => 'Postfix_Main.lns',
+      incl => '/etc/postfix/main.cf',
+      require => Package['postfix'],
+      notify => Service['postfix'],
+    }
+    postfix::postconf { 'submission':
+      private => 'n',
+      command => 'smtpd',
+    }
+  } else {
+    augeas { '/etc/postfix/main.cf-sasl':
+      context => '/files/etc/postfix/main.cf',
+      changes => [
+                  "rm smtpd_sasl_type",
+                  "rm smtpd_sasl_path",
+                  "rm smtpd_sasl_auth_enable",
+                  ],
+      lens => 'Postfix_Main.lns',
+      incl => '/etc/postfix/main.cf',
+      require => Package['postfix'],
+      notify => Service['postfix'],
+    }
+    augeas { "/etc/postfix/master.cf_nosubmission":
+      context => '/files/etc/postfix/master.cf',
+      changes => [
+                  "rm submission[type = 'inet']",
+                  ],
+      lens => 'Postfix_Master.lns',
+      incl => '/etc/postfix/master.cf',
+      require => Package['postfix'],
+      notify => Service['postfix'],
+    }
   }
 }
