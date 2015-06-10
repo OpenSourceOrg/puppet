@@ -73,11 +73,22 @@ class postfix ($use_mailman = false, $destinations = [], $use_smtp_auth = false)
     ensure => present,
     notify => Exec['pyzor-discover'],
   }
+  file { '/etc/spamassassin/.pyzor':
+    ensure => directory,
+    owner => debian-spamd,
+    group => debian-spamd,
+    require => Package['spamassassin'],
+  }
   exec { 'pyzor-discover':
     path => "/usr/sbin:/usr/bin:/sbin:/bin",
-    command => "mkdir -p /etc/spamassassin/.pyzor && chown -R debian-spamd /etc/spamassassin/.pyzor && su - debian-spamd -c 'pyzor --homedir /etc/spamassassin/.pyzor discover'",
+    command => "pyzor --homedir /etc/spamassassin/.pyzor discover",
+    user => 'debian-spamd',
     require => Package['spamassassin'],
-    refreshonly => true,
+    unless => 'test -e /etc/spamassassin/.pyzor/servers',
+    notify => File['/etc/spamassassin/.pyzor/servers'],
+  }
+  file { '/etc/spamassassin/.pyzor/servers':
+    mode => '0644',
   }
   postfix::postconf { 'smtp':
     type => 'inet',
