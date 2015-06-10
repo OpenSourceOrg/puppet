@@ -16,12 +16,9 @@ node 'gpl' {
   }
 
   apache2::module { 'cgi': }
-  apache2::virtualhost { 'gpl.opensource.org':
-    shortname => 'gpl'
-  }
-
-  apache2::virtualhost { 'opensource.org':
-    shortname => 'opensource'
+  apache2::module { 'rewrite': }
+  apache2::virtualhost { 'lists.opensource.org':
+    shortname => 'lists'
   }
 
   $mailaliases = hiera('mailaliases')

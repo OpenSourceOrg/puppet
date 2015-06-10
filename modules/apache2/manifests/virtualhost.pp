@@ -18,7 +18,8 @@ define apache2::virtualhost ($shortname, $enabled = true) {
     }
     file { "/etc/apache2/sites-available/$name.conf":
       ensure => present,
-      source => "puppet:///modules/apache2/$name.conf"
+      source => "puppet:///modules/apache2/$name.conf",
+      notify => Service['apache2'],
     }
   } else {
     exec { "a2dissite_$name":
@@ -28,4 +29,5 @@ define apache2::virtualhost ($shortname, $enabled = true) {
       onlyif => "test -e /etc/apache2/sites-enabled/$name.conf"
     }
   }
+
 }
