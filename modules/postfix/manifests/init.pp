@@ -38,8 +38,6 @@ class postfix ($use_mailman = false, $destinations = [], $use_smtp_auth = false)
                 "set smtpd_recipient_restrictions 'reject_unknown_sender_domain, reject_unknown_recipient_domain, reject_unauth_pipelining, permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination'",
                 "set content_filter 'smtp-amavis:[127.0.0.1]:10024'",
                 ],
-    lens => 'Postfix_Main.lns',
-    incl => '/etc/postfix/main.cf',
     require => Package['postfix'],
     notify => Service['postfix'],
   }
@@ -60,8 +58,6 @@ class postfix ($use_mailman = false, $destinations = [], $use_smtp_auth = false)
                 "set CRON 1",
                 "set OPTIONS '\"--create-prefs --max-children 5 --helper-home-dir --username debian-spamd\"'",
                 ],
-    lens => 'Shellvars.lns',
-    incl => '/etc/default/spamassassin',
     require => Package['spamassassin'],
     notify => Service['spamassassin'],
   }
@@ -158,8 +154,6 @@ class postfix ($use_mailman = false, $destinations = [], $use_smtp_auth = false)
                   "set smtpd_sasl_path private/auth",
                   "set smtpd_sasl_auth_enable yes",
                   ],
-      lens => 'Postfix_Main.lns',
-      incl => '/etc/postfix/main.cf',
       require => Package['postfix'],
       notify => Service['postfix'],
     }
@@ -175,8 +169,6 @@ class postfix ($use_mailman = false, $destinations = [], $use_smtp_auth = false)
                   "rm smtpd_sasl_path",
                   "rm smtpd_sasl_auth_enable",
                   ],
-      lens => 'Postfix_Main.lns',
-      incl => '/etc/postfix/main.cf',
       require => Package['postfix'],
       notify => Service['postfix'],
     }
@@ -185,8 +177,6 @@ class postfix ($use_mailman = false, $destinations = [], $use_smtp_auth = false)
       changes => [
                   "rm submission[type = 'inet']",
                   ],
-      lens => 'Postfix_Master.lns',
-      incl => '/etc/postfix/master.cf',
       require => Package['postfix'],
       notify => Service['postfix'],
     }

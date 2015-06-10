@@ -35,8 +35,6 @@ class dovecot {
                 "set service[.='auth']/unix_listener[.='/var/spool/postfix/private/auth']/user postfix",
                 "set service[.='auth']/unix_listener[.='/var/spool/postfix/private/auth']/group postfix",
                 ],
-    lens => 'Dovecot.lns',
-    incl => '/etc/dovecot/conf.d/10-master.conf',
     require => Package['dovecot-core'],
     notify => Service['dovecot'],
   }
@@ -47,8 +45,6 @@ class dovecot {
                 "set passdb/driver passwd-file",
                 "set passdb/args 'scheme=PLAIN username_format=%u /etc/dovecot/authusers'",
                 ],
-    lens => 'Dovecot.lns',
-    incl => '/etc/dovecot/conf.d/10-auth.conf',
     require => Package['dovecot-core'],
     notify => Service['dovecot'],
   }

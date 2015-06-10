@@ -10,8 +10,6 @@ define postfix::postconf ($type='inet', $private='-', $unpriv='-', $chroot='-', 
                 "set $name[type = '$type']/limit $maxproc",
                 "set $name[type = '$type']/command '$command'",
                 ],
-    lens => 'Postfix_Master.lns',
-    incl => '/etc/postfix/master.cf',
     require => Package['postfix'],
     notify => Service['postfix'],
   }
