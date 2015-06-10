@@ -1,10 +1,22 @@
 node 'gpl' {
-  class { 'standardpackages': }
+  class { 'debian': }
 
   class { 'postfix':
     use_mailman => true,
     destinations => ['projects.opensource.org', 'mail.opensource.org', 'opensource.org'],
     use_smtp_auth => true,
+  }
+
+  $mailaliases = hiera('mailaliases')
+  $mailaliases.each |$k, $v| {
+    mailalias { "$k":
+      ensure => present,
+      recipient => $v,
+      notify => Exec['/usr/bin/newaliases'],
+    }
+  }
+  exec { '/usr/bin/newaliases':
+    refreshonly => true
   }
 
   class { 'mailman':
@@ -22,15 +34,4 @@ node 'gpl' {
     shortname => 'lists'
   }
 
-  $mailaliases = hiera('mailaliases')
-  $mailaliases.each |$k, $v| {
-    mailalias { "$k":
-      ensure => present,
-      recipient => $v,
-      notify => Exec['/usr/bin/newaliases'],
-    }
-  }
-  exec { '/usr/bin/newaliases':
-    refreshonly => true
-  }
 }

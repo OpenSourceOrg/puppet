@@ -9,3 +9,5 @@ packages:
   - strace
   - etckeeper
   - mutt
+
+extra_packages: []

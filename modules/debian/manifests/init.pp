@@ -1,5 +1,5 @@
 class standardpackages {
-  $pkglist = hiera('packages')
+  $pkglist = hiera('packages') + hiera('extra_packages')
 
   $pkglist.each |$p| {
     package { $p:
