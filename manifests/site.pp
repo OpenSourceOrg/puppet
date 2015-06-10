@@ -21,7 +21,7 @@ node 'gpl' {
 
   class { 'mailman':
     emailhost => 'opensource.org',
-    webhost => 'projects.opensource.org'
+    webhost => 'lists.opensource.org'
   }
 
   class { 'apache2':
