@@ -26,4 +26,30 @@ class dovecot {
     refreshonly => true,
     notify => Service['dovecot']
   }
+
+  augeas { '/etc/dovecot/conf.d/10-master.conf_unix_listener':
+    context => '/files/etc/dovecot/conf.d/10-master.conf',
+    changes => [
+                "set service[.='auth']/unix_listener[.='/var/spool/postfix/private/auth'] '/var/spool/postfix/private/auth'",
+                "set service[.='auth']/unix_listener[.='/var/spool/postfix/private/auth']/mode 0666",
+                "set service[.='auth']/unix_listener[.='/var/spool/postfix/private/auth']/user postfix",
+                "set service[.='auth']/unix_listener[.='/var/spool/postfix/private/auth']/group postfix",
+                ],
+    lens => 'Dovecot.lns',
+    incl => '/etc/dovecot/conf.d/10-master.conf',
+    require => Package['dovecot-core'],
+    notify => Service['dovecot'],
+  }
+
+  augeas { '/etc/dovecot/conf.d/10-auth.conf_passdb':
+    context => '/files/etc/dovecot/conf.d/10-auth.conf',
+    changes => [
+                "set passdb/driver passwd-file",
+                "set passdb/args 'scheme=PLAIN username_format=%u /etc/dovecot/authusers'",
+                ],
+    lens => 'Dovecot.lns',
+    incl => '/etc/dovecot/conf.d/10-auth.conf',
+    require => Package['dovecot-core'],
+    notify => Service['dovecot'],
+  }
 }
