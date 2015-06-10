@@ -2,7 +2,7 @@ node 'gpl' {
   class { 'standardpackages': }
 
   class { 'postfix':
-    use_mailman => false, # Until lists are actually migrated
+    use_mailman => true,
     destinations => ['projects.opensource.org', 'mail.opensource.org', 'opensource.org']
   }
 
