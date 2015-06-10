@@ -1,4 +1,4 @@
-class standardpackages {
+class debian {
   $pkglist = hiera('packages') + hiera('extra_packages')
 
   $pkglist.each |$p| {
