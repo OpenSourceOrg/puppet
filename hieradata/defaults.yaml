@@ -9,5 +9,9 @@ packages:
   - strace
   - etckeeper
   - mutt
+  - uptimed
+  - molly-guard
+  - mc
+  - screen
 
 extra_packages: []
