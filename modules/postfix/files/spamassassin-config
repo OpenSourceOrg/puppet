@@ -1,3 +1,5 @@
+# This file is managed by Puppet, DO NOT HAND-EDIT
+
 rewrite_header Subject *****SPAM*****
 report_safe 1
 whitelist_from webmink@opensource.org
