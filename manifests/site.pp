@@ -34,4 +34,15 @@ node 'gpl' {
     shortname => 'lists'
   }
 
+  $sslcerts = hiera('sslcerts')
+  $sslcerts.each |$k, $v| {
+    file { "/etc/ssl/certs/$k.pem":
+      content => $v['cert'],
+      mode => "0644",
+    }
+    file { "/etc/ssl/private/$k.pem":
+      content => $v['key'],
+      mode => "0600",
+    }
+  }
 }

@@ -15,3 +15,5 @@ packages:
   - screen
 
 extra_packages: [] # Meant to be overridden by hieradata/data/$host.yaml
+
+sslcerts: {} # Meant to be overridden by hieradata/data/$host.yaml
