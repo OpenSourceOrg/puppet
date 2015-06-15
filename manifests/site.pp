@@ -30,19 +30,16 @@ node 'gpl' {
 
   apache2::module { 'cgi': }
   apache2::module { 'rewrite': }
+  apache2::module { 'ssl': }
   apache2::virtualhost { 'lists.opensource.org':
     shortname => 'lists'
   }
 
   $sslcerts = hiera('sslcerts')
   $sslcerts.each |$k, $v| {
-    file { "/etc/ssl/certs/$k.pem":
-      content => $v['cert'],
-      mode => "0644",
-    }
-    file { "/etc/ssl/private/$k.pem":
-      content => $v['key'],
-      mode => "0600",
+    ssl::cert { $k:
+      cert => $v['cert'],
+      key => $v['key'],
     }
   }
 }
