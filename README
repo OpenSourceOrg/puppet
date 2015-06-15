@@ -1,0 +1,27 @@
+Puppet setup for OSI's server(s)
+
+This Git repository contains Puppet rules that express the desired
+state of the Open Source Initiative's email server, called
+gpl.opensource.org at the time of writing.  Applying these rules
+configures three sets of things on that server:
+
+- a Postfix server, with countermeasures for spam (via Spamassassin)
+  and viruses (via Amavisd/ClamAV), with a set of authenticated SMTP
+  users and some mail aliases;
+- a Mailman daemon to serve mailing-lists (also integrated in
+  Postfix);
+- an Apache server for Mailman's web interface.
+
+The repository contains the functional part of the setup, but not all
+of the data.  Some of the data (mail aliases and user passwords) is
+stored separately in a YAML file that ought to be stored under
+hieradata/data/gpl.yaml (note that "gpl" should match the actual short
+hostname of the server).
+
+The OSI doesn't plan on using a master/agent Puppet setup, but to push
+and apply these rules "manually".  Two convenience scripts have been
+developed to help with deployment: test.sh (which compiles the Puppet
+rules and display what would happen without actually applying them),
+and apply.sh (which actually applies the rules to the server).
+
+-- Roland Mas <roland.mas@gnurandal.com>
