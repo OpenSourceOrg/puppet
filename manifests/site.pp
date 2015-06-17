@@ -1,5 +1,6 @@
 node 'gpl' {
   class { 'debian': }
+  class { 'vim': }
 
   class { 'postfix':
     use_mailman => true,

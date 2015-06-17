@@ -5,7 +5,6 @@ smtpauthusers: {} # Meant to be overridden by hieradata/private/$host.yaml
 packages:
   - moreutils # Used by mailman::configentry
   - bash-completion
-  - vim-nox
   - strace
   - etckeeper
   - mutt
