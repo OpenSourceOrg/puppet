@@ -1,6 +1,6 @@
 ---
-mailaliases: {} # Meant to be overridden by hieradata/data/$host.yaml
-smtpauthusers: {} # Meant to be overridden by hieradata/data/$host.yaml
+mailaliases: {} # Meant to be overridden by hieradata/private/$host.yaml
+smtpauthusers: {} # Meant to be overridden by hieradata/private/$host.yaml
 
 packages:
   - moreutils # Used by mailman::configentry
@@ -14,6 +14,6 @@ packages:
   - mc
   - screen
 
-extra_packages: [] # Meant to be overridden by hieradata/data/$host.yaml
+extra_packages: [] # Meant to be overridden by hieradata/private/$host.yaml
 
-sslcerts: {} # Meant to be overridden by hieradata/data/$host.yaml
+sslcerts: {} # Meant to be overridden by hieradata/private/$host.yaml
