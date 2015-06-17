@@ -42,4 +42,6 @@ node 'gpl' {
       key => $v['key'],
     }
   }
+
+  class { 'sudo': }
 }
