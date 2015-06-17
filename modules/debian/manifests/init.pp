@@ -6,4 +6,6 @@ class debian {
       ensure => present
     }
   }
+
+  include debian::unattended_upgrades
 }
