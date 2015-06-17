@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# shipped by Puppet, do not modify
+
+BACKUP_DIR=/<%= @backup_dir %>
+BACKUP_NAME=${BACKUP_DIR}/$(hostname -f)
+
+echo
+echo "** Starting up backup [ $(date -R) ]"
+echo "** Full backup using dar ..."
+dar -c "${BACKUP_NAME}_full" -R / $@
+
+remote_name="${BACKUP_NAME}_full.1.dar"
+# TODO: upload backup
+
+echo "** All done. [ $(date -R) ]"

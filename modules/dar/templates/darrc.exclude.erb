@@ -1,0 +1,10 @@
+# This file is managed by Puppet, local modifications will be overwritten
+
+# Paths to skip (relative to backup root)
+
+# avoid backup loops
+-P <%= @backup_dir %>
+
+-P var/cache
+-P var/run
+-P var/tmp

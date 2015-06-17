@@ -45,4 +45,5 @@ node 'gpl' {
   }
 
   class { 'sudo': }
+  class { 'dar': }
 }

@@ -1,0 +1,37 @@
+# This file is managed by Puppet, local modifications will be overwritten
+
+# paths to backup (relative to backup root)
+-g etc
+-g home
+-g root
+-g var
+-g srv
+
+# exclude paths
+-B /etc/darrc.exclude
+
+# batch mode, no interactive questions
+-Q
+
+# do not warn before overwriting old backup slices
+-w
+
+# store empty directories
+-D
+
+# crypt backups
+-B /etc/darrc.key
+
+# compress backups
+-z
+
+# avoid compressing already compressed files
+-Z '*.Z'
+-Z '*.bz2'
+-Z '*.gz'
+-Z '*.xz'
+-Z '*.jpg'
+-Z '*.mp3'
+-Z '*.mpg'
+-Z '*.tgz'
+-Z '*.zip'

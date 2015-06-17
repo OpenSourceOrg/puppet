@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# shipped by Puppet, do not modify
+
+BACKUP_DIR=/<%= @backup_dir %>
+BACKUP_NAME=${BACKUP_DIR}/$(hostname -f)
+KEY_FILE=/etc/darrc.key
+
+INCRNO="$1"
+shift 1
+if [ -z "$INCRNO" ] ; then
+	echo "Usage: incr_backup INCREMENTAL_NUMBER"
+	exit 2
+fi
+
+refbackup=""
+if [ "$INCRNO" = 1 ] ; then
+	refbackup="${BACKUP_NAME}_full"
+else
+	refno=$[$INCRNO-1]
+	refbackup="${BACKUP_NAME}_incr$refno"
+fi
+
+key=$(grep '^-K' $KEY_FILE | cut -f 2 -d' ')
+
+echo
+echo "** Starting up backup [ $(date -R) ]"
+echo "** Incremental backup using dar (#$INCRNO) ..."
+dar -c "${BACKUP_NAME}_incr$INCRNO" -R / -A "$refbackup" -J "$key" $@
+
+remote_name="${BACKUP_NAME}_incr$INCRNO.1.dar"
+# TODO: upload backup
+
+echo "** All done. [ $(date -R) ]"

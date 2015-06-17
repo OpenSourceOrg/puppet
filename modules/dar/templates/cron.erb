@@ -1,0 +1,12 @@
+# This file is managed by Puppet, local modifications will be overwritten
+
+# full backup on sunday
+17 3 * * 0	root	/usr/local/sbin/full_backup >> /var/log/backup/backup.log 2>&1 || (echo "Full backup returned non 0 exit code" ; cat /var/log/backup/backup.log)
+
+# incremental backups during the week
+17 3 * * 1	root	/usr/local/sbin/incr_backup 1 >> /var/log/backup/backup.log 2>&1 || (echo "Incremental backup returned non 0 exit code" ; cat /var/log/backup/backup.log)
+17 3 * * 2	root	/usr/local/sbin/incr_backup 2 >> /var/log/backup/backup.log 2>&1 || (echo "Incremental backup returned non 0 exit code" ; cat /var/log/backup/backup.log)
+17 3 * * 3	root	/usr/local/sbin/incr_backup 3 >> /var/log/backup/backup.log 2>&1 || (echo "Incremental backup returned non 0 exit code" ; cat /var/log/backup/backup.log)
+17 3 * * 4	root	/usr/local/sbin/incr_backup 4 >> /var/log/backup/backup.log 2>&1 || (echo "Incremental backup returned non 0 exit code" ; cat /var/log/backup/backup.log)
+17 3 * * 5	root	/usr/local/sbin/incr_backup 5 >> /var/log/backup/backup.log 2>&1 || (echo "Incremental backup returned non 0 exit code" ; cat /var/log/backup/backup.log)
+17 3 * * 6	root	/usr/local/sbin/incr_backup 6 >> /var/log/backup/backup.log 2>&1 || (echo "Incremental backup returned non 0 exit code" ; cat /var/log/backup/backup.log)
