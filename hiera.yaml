@@ -4,5 +4,5 @@
 :yaml:
   :datadir: "%{::settings::modulepath}/../hieradata"
 :hierarchy:
-  - "data/%{::hostname}"
+  - "private/%{::hostname}"
   - defaults
