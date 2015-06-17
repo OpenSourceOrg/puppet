@@ -7,3 +7,23 @@ not (yet) puppet-ized configuration data:
     fr_FR.UTF-8 UTF-8
     it_IT.UTF-8 UTF-8
 
+- timezone
+
+    root@gpl:/etc# git show bcd4955b893e15cb84c381be5a276eac71c9c03e
+    commit bcd4955b893e15cb84c381be5a276eac71c9c03e
+    Author: Stefano Zacchiroli <zack@upsilon.cc>
+    Date:   Wed Jun 17 21:45:14 2015 +0000
+    
+        set timezone to UTC
+    
+    diff --git a/localtime b/localtime
+    index fd8ea7d..5583f5b 100644
+    Binary files a/localtime and b/localtime differ
+    diff --git a/timezone b/timezone
+    index 7cd9492..7f39493 100644
+    --- a/timezone
+    +++ b/timezone
+    @@ -1 +1 @@
+    -Europe/Paris
+    +Etc/UTC
+
