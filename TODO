@@ -1,0 +1,9 @@
+not (yet) puppet-ized configuration data:
+
+- /etc/locale.gen
+
+    root@gpl:~/puppet# grep -v ^# /etc/locale.gen 
+    en_US.UTF-8 UTF-8
+    fr_FR.UTF-8 UTF-8
+    it_IT.UTF-8 UTF-8
+
