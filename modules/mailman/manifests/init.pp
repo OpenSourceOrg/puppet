@@ -13,6 +13,9 @@ class mailman ($emailhost, $webhost) {
   mailman::configentry { 'DEFAULT_URL_HOST':
     value => "\"$webhost\""
   }
+  mailman::configentry { 'DEFAULT_URL_PATTERN':
+    value => "\"https://%s/cgi-bin/mailman/\""
+  }
   mailman::configentry { 'MTA':
     value => '"Postfix"'
   }

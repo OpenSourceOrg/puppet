@@ -14,7 +14,7 @@ define mailman::configentry ($value) {
   }
 
   exec { "set_mmcfg_$name":
-    command => "sed -i -e 's/$regex/$name = $value/' $file",
+    command => "sed -i -e 's,$regex,$name = $value,' $file",
     path => "/usr/sbin:/usr/bin:/sbin:/bin",
     require => Exec["uniquify_mmcfg_$name"],
     notify => Service['mailman'],
