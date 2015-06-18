@@ -47,6 +47,7 @@ class postfix ($use_mailman = false, $destinations = [], $use_smtp_auth = false)
   }
   service { 'spamassassin':
     ensure => running,
+    enable => true,
     require => [
                 Package['spamassassin'],
                 ]
