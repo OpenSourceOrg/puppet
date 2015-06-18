@@ -1,6 +1,10 @@
 node 'gpl' {
   class { 'debian': }
+
+  class { 'dar': }
   class { 'puppet': }
+  class { 'sudo': }
+  class { 'syslog': }
   class { 'vim': }
 
   class { 'postfix':
@@ -44,7 +48,4 @@ node 'gpl' {
       key => $v['key'],
     }
   }
-
-  class { 'sudo': }
-  class { 'dar': }
 }
