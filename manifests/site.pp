@@ -1,5 +1,6 @@
 node 'gpl' {
   class { 'debian': }
+  class { 'puppet': }
   class { 'vim': }
 
   class { 'postfix':
