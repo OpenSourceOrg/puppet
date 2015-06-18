@@ -3,6 +3,7 @@
 # shipped by Puppet, do not modify
 
 BACKUP_DIR=/<%= @backup_dir %>
+BACKUP_REMOTE=<%= @backup_remote %>
 BACKUP_NAME=${BACKUP_DIR}/$(hostname -f)
 KEY_FILE=/etc/darrc.key
 
@@ -28,7 +29,8 @@ echo "** Starting up backup [ $(date -R) ]"
 echo "** Incremental backup using dar (#$INCRNO) ..."
 dar -c "${BACKUP_NAME}_incr$INCRNO" -R / -A "$refbackup" -J "$key" $@
 
+echo "** Copying backup to Google Cloud Storage ..."
 remote_name="${BACKUP_NAME}_incr$INCRNO.1.dar"
-# TODO: upload backup
+gsutil -q cp "$remote_name" "$BACKUP_REMOTE"
 
 echo "** All done. [ $(date -R) ]"

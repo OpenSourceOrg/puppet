@@ -1,6 +1,7 @@
 class dar ($backup_key = undef,
            $backup_dir = undef,
-           $log_dir = '/var/log/backup')
+           $log_dir = '/var/log/backup',
+           $backup_remote = undef)
 {
 
   unless $backup_key {
@@ -8,6 +9,9 @@ class dar ($backup_key = undef,
   }
   unless $backup_dir {
     fail('backup_dir cannot be empty')
+  }
+  unless $backup_remote {
+    fail('backup_remote should be a non-empty Google Cloud Storage end point, e.g.: gs://something-cool/')
   }
 
   package { 'dar':
@@ -49,6 +53,11 @@ class dar ($backup_key = undef,
   file { '/usr/local/sbin/incr_backup':
     ensure  => present,
     content => template('dar/incr_backup.erb'),
+    mode    => '755',
+  }
+  file { '/usr/local/bin/gsutil':
+    ensure  => present,
+    content => template('dar/gsutil.erb'),
     mode    => '755',
   }
 

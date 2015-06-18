@@ -32,3 +32,11 @@ not (yet) puppet-ized configuration data:
     CONFIG_TIMEZONE=0
     CONFIG_HOSTNAME=0
 
+- /opt/gsutil/virt/
+
+  virtualenv with Google's gsutil https://cloud.google.com/storage/docs/gsutil
+  (waiting for a proper Debian package)
+
+  note: puppet handles /usr/local/bin/gsutil , but that script requires the
+  above /opt dir to work properly
+
