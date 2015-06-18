@@ -27,3 +27,8 @@ not (yet) puppet-ized configuration data:
     -Europe/Paris
     +Etc/UTC
 
+- /etc/default/gandi
+
+    CONFIG_TIMEZONE=0
+    CONFIG_HOSTNAME=0
+
