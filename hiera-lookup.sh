@@ -6,7 +6,7 @@ p=$(dirname $0)
 
 top="${key%%:*}"
 if [ "$top" = "$key" ] ; then
-    hiera -c $p/hiera.yaml $key ::hostname=gpl ::settings::modulepath=$p/hieradata
+    hiera -c $p/hiera.yaml $key ::hostname=$(facter hostname) ::settings::modulepath=$p/hieradata
 else
     cur="${key#*::}"
     sel=""
@@ -20,7 +20,7 @@ else
 	fi
     done
     ruby <<EOF
-h=$(hiera -c $p/hiera.yaml $top ::hostname=gpl ::settings::modulepath=$p/hieradata)
+h=$(hiera -c $p/hiera.yaml $top ::hostname=$(facter hostname) ::settings::modulepath=$p/hieradata)
 print h$sel
 EOF
 fi
