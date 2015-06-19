@@ -1,12 +1,6 @@
 node 'gpl' {
-  class { 'debian': }
-  class { 'gandi': }
-
-  class { 'dar': }
-  class { 'puppet': }
-  class { 'sudo': }
-  class { 'syslog': }
-  class { 'vim': }
+  class { 'opensourceorg::server': }
+  class { 'gandi::vm': }
 
   class { 'postfix':
     use_mailman => true,
