@@ -13,9 +13,17 @@ echo
 echo "** Starting up backup [ $(date -R) ]"
 echo "** Full backup using dar ..."
 dar -c "${BACKUP_NAME}_full" -R / $@
+rc="$?"
+if [ "$rc" -ne 0 -o "$rc" -ne 11 ] ; then
+  echo "** dar failed. Abort [ $(date -R) ]"
+  exit 1
+fi
 
 echo "** Copying backup to Google Cloud Storage ..."
 remote_name="${BACKUP_NAME}_full.1.dar"
-gsutil -q cp "$remote_name" "$BACKUP_REMOTE"
+if ! gsutil -q cp "$remote_name" "$BACKUP_REMOTE" ; then
+  echo "** gsutil failed. Abort [ $(date -R) ]"
+  exit 1
+fi
 
 echo "** All done. [ $(date -R) ]"
