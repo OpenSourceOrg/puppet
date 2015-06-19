@@ -6,6 +6,9 @@ BACKUP_DIR=/<%= @backup_dir %>
 BACKUP_REMOTE=<%= @backup_remote %>
 BACKUP_NAME=${BACKUP_DIR}/$(hostname -f)
 
+# for gsutil
+export PATH=/usr/local/bin:$PATH
+
 echo
 echo "** Starting up backup [ $(date -R) ]"
 echo "** Full backup using dar ..."

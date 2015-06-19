@@ -7,6 +7,9 @@ BACKUP_REMOTE=<%= @backup_remote %>
 BACKUP_NAME=${BACKUP_DIR}/$(hostname -f)
 KEY_FILE=/etc/darrc.key
 
+# for gsutil
+export PATH=/usr/local/bin:$PATH
+
 INCRNO="$1"
 shift 1
 if [ -z "$INCRNO" ] ; then
