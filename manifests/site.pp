@@ -1,5 +1,6 @@
 node 'gpl' {
   class { 'debian': }
+  class { 'gandi': }
 
   class { 'dar': }
   class { 'puppet': }
