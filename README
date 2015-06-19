@@ -15,7 +15,7 @@ configures three sets of things on that server:
 The repository contains the functional part of the setup, but not all
 of the data.  Some of the data (mail aliases and user passwords) is
 stored separately in a YAML file that ought to be stored under
-hieradata/data/gpl.yaml (note that "gpl" should match the actual short
+hieradata/private/gpl.yaml (note that "gpl" should match the actual short
 hostname of the server).
 
 The OSI doesn't plan on using a master/agent Puppet setup, but to push
