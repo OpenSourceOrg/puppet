@@ -32,7 +32,7 @@ echo "** Starting up backup [ $(date -R) ]"
 echo "** Incremental backup using dar (#$INCRNO) ..."
 dar -c "${BACKUP_NAME}_incr$INCRNO" -R / -A "$refbackup" -J "$key" $@
 rc="$?"
-if [ "$rc" -ne 0 -o "$rc" -ne 11 ] ; then
+if [ "$rc" -ne 0 -a "$rc" -ne 11 ] ; then
   echo "** dar failed. Abort [ $(date -R) ]"
   exit 1
 fi

@@ -14,7 +14,7 @@ echo "** Starting up backup [ $(date -R) ]"
 echo "** Full backup using dar ..."
 dar -c "${BACKUP_NAME}_full" -R / $@
 rc="$?"
-if [ "$rc" -ne 0 -o "$rc" -ne 11 ] ; then
+if [ "$rc" -ne 0 -a "$rc" -ne 11 ] ; then
   echo "** dar failed. Abort [ $(date -R) ]"
   exit 1
 fi
