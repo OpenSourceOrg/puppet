@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# shipped by Puppet, do not modify
+
+# Copyright (C) 2015  Stefano Zacchiroli <zack@upsilon.cc>
+# License: GNU General Public License (GPL), version 3 or above
+
+# Do a full or incremental dar backup, depending on the given sequence number,
+# and copy it to Google Cloud Storage.
+
+BACKUP_DIR=/<%= @backup_dir %>
+BACKUP_REMOTE=<%= @backup_remote %>
+BACKUP_HISTORY=<%= @backup_history %>
+BACKUP_NAME=${BACKUP_DIR}/$(hostname -f)
+KEY_FILE=/etc/darrc.key
+
+# for gsutil
+export PATH=/usr/local/bin:$PATH
+
+SEQNO="$1"
+shift 1
+if [ -z "$SEQNO" ] ; then
+    echo "Usage: backup SEQUENCE_NUMBER"
+    echo "SEQUENCE_NUMBER:"
+    echo "- 0     -> full backup"
+    echo "- n > 0 -> incremental backup wrt backup n-1"
+    echo "- today -> use expected sequence number for today"
+    exit 2
+fi
+
+backup_key=$(grep '^-K' $KEY_FILE | cut -f 2 -d' ')
+
+if [ "$SEQNO" = "today" ] ; then
+    SEQNO=$[ ($(date +%j) - 1) % $BACKUP_HISTORY ]
+fi
+
+ref_flags=""
+if [ "$SEQNO" -eq 0 ] ; then
+    backup_type="Full"
+    backup_file="${BACKUP_NAME}_full"
+elif [ "$SEQNO" -eq 1 ] ; then
+    backup_type="Incremental"
+    backup_file="${BACKUP_NAME}_incr${SEQNO}"
+    refbackup="${BACKUP_NAME}_full"
+    ref_flags="-A ${refbackup} -J ${backup_key}"
+elif [ "$SEQNO" -gt 1 ] ; then
+    backup_type="Incremental"
+    backup_file="${BACKUP_NAME}_incr${SEQNO}"
+    refno=$[$SEQNO-1]
+    refbackup="${BACKUP_NAME}_incr$refno"
+    ref_flags="-A ${refbackup} -J ${backup_key}"
+fi
+
+echo
+echo "** Starting up backup [ $(date -R) ]"
+echo "** ${backup_type} backup using dar (#$SEQNO) ..."
+dar -c "$backup_file" -R / $ref_flags $@
+rc="$?"
+if [ "$rc" -ne 0 -a "$rc" -ne 11 ] ; then
+  echo "** dar failed. Abort [ $(date -R) ]"
+  exit 1
+fi
+
+echo "** Copying backup to Google Cloud Storage ..."
+remote_name="${backup_file}.1.dar"
+if ! gsutil -q cp "$remote_name" "$BACKUP_REMOTE" ; then
+  echo "** gsutil failed. Abort [ $(date -R) ]"
+  exit 1
+fi
+
+echo "** All done. [ $(date -R) ]"

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# shipped by Puppet, do not modify
+
+# Copyright (C) 2015  Stefano Zacchiroli <zack@upsilon.cc>
+# License: GNU General Public License (GPL), version 3 or above
+
+# Do a full backup and a series of incremental backup, until the backup
+# sequence has been recreated up to the current day.
+
+BACKUP_HISTORY=<%= @backup_history %>
+
+# for backup script
+export PATH=/usr/local/sbin:$PATH
+
+act='no'
+if [ "$1" = '-f' ] ; then
+    act='yes'
+else
+    echo "Dry run mode, pass -f to actually catchup backup sequence."
+    echo "Warning: doing so might overwrite previous backups."
+fi
+shift 1
+
+day_of_year=$(date +%j)
+today_seq=$[ ($day_of_year - 1) % $BACKUP_HISTORY ]
+
+for i in $(seq 0 $today_seq) ; do
+    if [ "$act" = 'yes' ] ; then
+	if ! backup $i ; then
+	    echo "backup $i returned non-0 exit code. Stopping here"
+	    break
+	fi
+    else
+	echo "dry run: backup $i"
+    fi
+done
+
+echo "Caught up with backup sequence. Well done"

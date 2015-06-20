@@ -1,7 +1,8 @@
 class dar ($backup_key = undef,
            $backup_dir = undef,
            $log_dir = '/var/log/backup',
-           $backup_remote = undef)
+           $backup_remote = undef,
+           $backup_history = 7)
 {
 
   unless $backup_key {
@@ -45,14 +46,14 @@ class dar ($backup_key = undef,
     content => template('dar/cron.erb'),
   }
 
-  file { '/usr/local/sbin/full_backup':
+  file { '/usr/local/sbin/backup':
     ensure  => present,
-    content => template('dar/full_backup.erb'),
+    content => template('dar/backup.erb'),
     mode    => '755',
   }
-  file { '/usr/local/sbin/incr_backup':
+  file { '/usr/local/sbin/backup-catchup':
     ensure  => present,
-    content => template('dar/incr_backup.erb'),
+    content => template('dar/backup-catchup.erb'),
     mode    => '755',
   }
   file { '/usr/local/bin/gsutil':
