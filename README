@@ -1,27 +1,80 @@
-Puppet setup for OSI's server(s)
+Open Source Initiative (OSI)'s Puppet Recipes
+=============================================
 
-This Git repository contains Puppet rules that express the desired
-state of the Open Source Initiative's email server, called
-gpl.opensource.org at the time of writing.  Applying these rules
-configures three sets of things on that server:
+In this Git repository you can find the [Puppet][1] recipes used to configure
+Open Source Initiative (OSI)'s servers. As of now a single host
+(gpl.opensource.org, or gpl.o.o for short) is configured via Puppet and used
+for a number of mail-related services:
 
-- a Postfix server, with countermeasures for spam (via Spamassassin)
-  and viruses (via Amavisd/ClamAV), with a set of authenticated SMTP
-  users and some mail aliases;
-- a Mailman daemon to serve mailing-lists (also integrated in
-  Postfix);
-- an Apache server for Mailman's web interface.
+- Postfix MTA, with countermeasures for SPAM (via spamassassin) and viruses
+  (via Amavisd/ClamAV), with a set of authenticated SMTP users and mail aliases
+  for @opensource.org users
 
-The repository contains the functional part of the setup, but not all
-of the data.  Some of the data (mail aliases and user passwords) is
-stored separately in a YAML file that ought to be stored under
-hieradata/private/gpl.yaml (note that "gpl" should match the actual short
-hostname of the server).
+- Mailman mailing list server (integrated with Postfix)
 
-The OSI doesn't plan on using a master/agent Puppet setup, but to push
-and apply these rules "manually".  Two convenience scripts have been
-developed to help with deployment: test.sh (which compiles the Puppet
-rules and display what would happen without actually applying them),
-and apply.sh (which actually applies the rules to the server).
+- Apache server (mostly for Mailman's web-based UI)
 
--- Roland Mas <roland.mas@gnurandal.com>
+The Puppet recipes encode the *functional* part of the setup, separated into
+individual Puppet modules, but do not contain any configuration *data*. Rather,
+configuration data is stored into YAML files for [Hiera][2].
+
+[1]: https://puppetlabs.com/puppet/puppet-open-source
+[2]: http://docs.puppetlabs.com/hiera/
+
+Configuration data that is common to all machines (e.g., packaged goodies that
+we want installed on every host) and is not private data is stored under
+`hieradata/defaults.yaml`. That file also provide default configuration values
+for host-specific data.  Configuration data that is either host-specific or
+should remain private (or both) should be stored under
+`hieradata/private/HOSTNAME.yaml`, where hostname is the (not fully qualified)
+host name, e.g., "gpl". Values in that file will override corresponding values
+in `defaults.yaml`.
+
+Note that `hieradata/private` is not checked into this Git repository (and
+shouldn't be, for privacy reasons). On the actual hosts deployment hosts---and
+in particular on gpl.o.o---the directory `hieradata/private` might be
+checked-in different Git repository, for auditing reasons. For obvious reasons
+that Git repository must remain OSI-private.
+
+
+How to deploy
+-------------
+
+OSI does not use a agent/master setup, but rather a standalone setup, deploying
+with `puppet apply`. The following convenience script are available starting
+from this Git repository:
+
+- **./test.sh**: will do a dry-run deployment test based on the current status
+  of the recipes. Doing so will show on screen what an actual deployment will
+  do, including textual diffs to Puppet-managed files
+
+- **./apply.sh**: same as test.sh, but will do the actual deployment
+
+- **./hiera-lookup.sh**: will perform a Hiera lookup for a given configuration
+  key, for the current host
+
+
+Contribute
+----------
+
+You are welcome to use these Puppet recipes for your own needs. If you would
+like to, you are also welcome to contribute back your improvements to OSI, we
+will very much appreciate!
+
+- feel free to submit a **pull request** at
+  <https://github.com/OpenSourceOrg/puppet>, where this repository is hosted
+
+- or to contact us via **email** at <osi@opensource.org>
+
+
+Licensing
+---------
+
+See LICENSE file.
+
+
+Acknowledgements
+----------------
+
+- Roland Mas <roland.mas@gnurandal.com>, as an OSI contractor, has kick-started
+  and shaped these Puppet recipes. They wouldn't exist without him.
