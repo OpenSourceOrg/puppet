@@ -12,6 +12,7 @@ packages:
   - molly-guard
   - mc
   - screen
+  - mlocate
 
 extra_packages: [] # Meant to be overridden by hieradata/private/$host.yaml
 
