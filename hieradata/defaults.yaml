@@ -13,6 +13,10 @@ packages:
   - mc
   - screen
   - mlocate
+  - bsd-mailx
+  - traceroute
+  - mtr-tiny
+  - netcat-openbsd
 
 extra_packages: [] # Meant to be overridden by hieradata/private/$host.yaml
 
