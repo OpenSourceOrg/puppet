@@ -22,5 +22,6 @@ extra_packages: [] # Meant to be overridden by hieradata/private/$host.yaml
 
 sslcerts: {} # Meant to be overridden by hieradata/private/$host.yaml
 
+postfix::opendkim::selector: mail  # opendkim key selector
 postfix::opendkim::privatekey: ""  # private key for opendkim
 postfix::opendkim::dnsrecord: ""   # DNS entry for opendkim

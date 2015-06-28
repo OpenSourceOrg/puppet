@@ -14,7 +14,7 @@ UMask			002
 # selector '2007' (e.g. 2007._domainkey.example.com)
 Domain			<%= @domainname %>
 KeyFile			/etc/mail/dkim.key
-Selector		mail
+Selector		<%= @selector %>
 
 # Commonly-used options; the commented-out versions show the defaults.
 Canonicalization	relaxed/relaxed

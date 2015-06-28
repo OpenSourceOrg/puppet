@@ -1,6 +1,7 @@
 class postfix::opendkim (
   $domainname = undef,
   $privatekey = undef,
+  $selector = 'mail',
   $dnsrecord = undef,
 ) {
   unless $domainname { fail('domainname cannot be empty') }
@@ -49,7 +50,7 @@ class postfix::opendkim (
   if $dnsrecord {  # for informative/documnetation purposes only
     file { '/etc/mail/dkim.record.txt':
       ensure  => present,
-      content => $dnsrecord,
+      content => "${dnsrecord}\n",
     }
   }
 
