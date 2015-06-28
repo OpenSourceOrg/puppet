@@ -18,7 +18,8 @@ class postfix (
   }
 
   file { '/etc/mailname':
-    content => "$fqdn\n"
+    content => "${domainname}\n",
+    notify  => Service['postfix'],
   }
 
   if $use_mailman {
