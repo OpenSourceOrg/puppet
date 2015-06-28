@@ -1,4 +1,14 @@
-class postfix ($use_mailman = false, $destinations = [], $use_smtp_auth = false) {
+class postfix (
+  $domainname = undef,
+  $destinations = [],
+  $use_mailman = false,
+  $use_smtp_auth = false,
+  $use_dkim = false
+) {
+  unless $domainname {
+    fail('domainname cannot be empty')
+  }
+
   package { 'postfix':
     ensure => present
   }
@@ -180,6 +190,12 @@ class postfix ($use_mailman = false, $destinations = [], $use_smtp_auth = false)
                   ],
       require => Package['postfix'],
       notify => Service['postfix'],
+    }
+  }
+
+  if $use_dkim {
+    class { 'postfix::opendkim':
+      domainname => $domainname
     }
   }
 }

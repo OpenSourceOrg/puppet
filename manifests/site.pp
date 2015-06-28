@@ -5,9 +5,11 @@ node 'gpl' {
   $domainname = 'opensource.org'
 
   class { 'postfix':
-    use_mailman => true,
-    destinations => ["projects.${domainname}", "mail.${domainname}", $domainname],
+    domainname    => $domainname,
+    destinations  => ["projects.${domainname}", "mail.${domainname}", $domainname],
+    use_mailman   => true,
     use_smtp_auth => true,
+    use_dkim      => true,
   }
 
   $mailaliases = hiera('mailaliases')
