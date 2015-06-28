@@ -33,7 +33,7 @@ class postfix::opendkim (
     context => '/files/etc/postfix/main.cf',
     changes => [
                 'set milter_default_action accept',
-                'set milter_protocol 2',
+                # 'set milter_protocol 2',
                 'set smtpd_milters inet:localhost:8891',
                 'set non_smtpd_milters inet:localhost:8891',
                 ],
