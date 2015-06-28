@@ -9,9 +9,11 @@ class postfix (
     fail('domainname cannot be empty')
   }
 
-  package { 'postfix':
+  $pkgs = ['postfix', 'pflogsumm']
+  package { $pkgs:
     ensure => present
   }
+
   service { 'postfix':
     ensure => running,
     require => Package['postfix'],
