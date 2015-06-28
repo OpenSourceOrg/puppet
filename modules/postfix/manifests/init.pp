@@ -130,9 +130,15 @@ class postfix (
     -o disable_dns_lookups=yes
     -o max_use=20',
   }
+
+  if $use_dkim {
+    $suppress_milters = ',no_milters'
+  } else {
+    $suppress_milters = ''
+  }
   postfix::postconf { '127.0.0.1:10025':
     private => 'n',
-    command => 'smtpd
+    command => "smtpd
     -o content_filter=
     -o local_recipient_maps=
     -o relay_recipient_maps=
@@ -150,7 +156,7 @@ class postfix (
     -o smtpd_hard_error_limit=1000
     -o smtpd_client_connection_count_limit=0
     -o smtpd_client_connection_rate_limit=0
-    -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks'
+    -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks${suppress_milters}"
   }
 
   if $use_smtp_auth {
