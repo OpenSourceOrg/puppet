@@ -2,9 +2,11 @@ node 'gpl' {
   class { 'opensourceorg::server': }
   class { 'gandi::vm': }
 
+  $domainname = 'opensource.org'
+
   class { 'postfix':
     use_mailman => true,
-    destinations => ['projects.opensource.org', 'mail.opensource.org', 'opensource.org'],
+    destinations => ["projects.${domainname}", "mail.${domainname}", $domainname],
     use_smtp_auth => true,
   }
 
@@ -21,8 +23,8 @@ node 'gpl' {
   }
 
   class { 'mailman':
-    emailhost => 'opensource.org',
-    webhost => 'lists.opensource.org'
+    emailhost => $domainname,
+    webhost => "lists.${domainname}",
   }
 
   class { 'apache2':
@@ -32,7 +34,7 @@ node 'gpl' {
   apache2::module { 'cgi': }
   apache2::module { 'rewrite': }
   apache2::module { 'ssl': }
-  apache2::virtualhost { 'lists.opensource.org':
+  apache2::virtualhost { "lists.${domainname}":
     shortname => 'lists'
   }
 
