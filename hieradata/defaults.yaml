@@ -17,6 +17,7 @@ packages:
   - traceroute
   - mtr-tiny
   - netcat-openbsd
+  - ntp
 
 extra_packages: [] # Meant to be overridden by hieradata/private/$host.yaml
 
