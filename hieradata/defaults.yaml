@@ -18,6 +18,7 @@ packages:
   - mtr-tiny
   - netcat-openbsd
   - ntp
+  - wget
 
 extra_packages: [] # Meant to be overridden by hieradata/private/$host.yaml
 
