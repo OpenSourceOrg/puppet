@@ -6,7 +6,7 @@ define apache2::virtualhost ($shortname, $enabled = true) {
     file { "/var/www/$shortname/public":
       ensure => directory
     }
-    file { "/var/www/$shortname/logs":
+    file { "/var/log/apache2":
       ensure => directory
     }
     exec { "a2ensite_$name":
