@@ -39,6 +39,9 @@ node 'gpl' {
   apache2::virtualhost { "lists.${domainname}":
     shortname => 'lists'
   }
+  apache2::virtualhost { "munin.${domainname}":
+    shortname => 'munin'
+  }
 
   $sslcerts = hiera('sslcerts')
   $sslcerts.each |$k, $v| {
