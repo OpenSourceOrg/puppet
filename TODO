@@ -35,4 +35,8 @@ not (yet) puppet-ized configuration data:
   note: puppet handles /usr/local/bin/gsutil , but that script requires the
   above /opt dir to work properly
 
+- munin
+  - /var/www/munin/etc/htpasswd
+  - apt-get install munin
+
 - # vim-addon-manager --system-wide install puppet
