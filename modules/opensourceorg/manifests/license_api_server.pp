@@ -8,7 +8,6 @@ class opensourceorg::license_api_server
 
   file { $conffile:
     ensure  => present,
-    require => Service['apache2'],
     notify  => Service['apache2']
   }
 
