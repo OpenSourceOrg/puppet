@@ -8,4 +8,5 @@ class debian {
   }
 
   include debian::unattended_upgrades
+  include debian::local_apt_repository
 }
