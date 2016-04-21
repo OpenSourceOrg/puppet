@@ -1,6 +1,7 @@
 node 'gpl' {
   class { 'opensourceorg::server': }
   class { 'gandi::vm': }
+  class { 'opensourceorg::license_api_server': }
 
   $domainname = 'opensource.org'
 
