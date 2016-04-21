@@ -8,7 +8,7 @@ class debian::local_apt_repository {
     require => Package['local-apt-repository'],
     ensure  => directory,
     mode    => 0755,
-    user    => 'root',
+    owner   => 'root',
     group   => 'root',
   }
 
