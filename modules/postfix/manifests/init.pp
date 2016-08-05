@@ -9,7 +9,7 @@ class postfix (
     fail('domainname cannot be empty')
   }
 
-  $pkgs = ['postfix', 'pflogsumm']
+  $pkgs = ['postfix', 'pflogsumm', 'procmail']
   package { $pkgs:
     ensure => present
   }
@@ -47,6 +47,7 @@ class postfix (
                 "set smtpd_sender_restrictions reject_unknown_sender_domain",
                 "set smtpd_use_tls yes",
                 "set home_mailbox Maildir/",
+                #"set mailbox_command 'procmail -p'",
                 "set maximal_queue_lifetime 1d",
                 "set smtpd_recipient_restrictions 'reject_unknown_sender_domain, reject_unknown_recipient_domain, reject_unauth_pipelining, permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination'",
                 "set content_filter 'smtp-amavis:[127.0.0.1]:10024'",
