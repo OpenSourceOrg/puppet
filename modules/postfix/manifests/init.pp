@@ -46,6 +46,8 @@ class postfix (
                 "rm relayhost",
                 "set smtpd_sender_restrictions reject_unknown_sender_domain",
                 "set smtpd_use_tls yes",
+                "set smtpd_tls_security_level may",
+                "set smtpd_tls_auth_only yes",
                 "set home_mailbox Maildir/",
                 #"set mailbox_command 'procmail -p'",
                 "set maximal_queue_lifetime 1d",
