@@ -27,6 +27,8 @@ not (yet) puppet-ized configuration data:
     -Europe/Paris
     +Etc/UTC
 
+- # vim-addon-manager --system-wide install puppet
+
 - /opt/gsutil/virt/
 
   virtualenv with Google's gsutil https://cloud.google.com/storage/docs/gsutil
@@ -39,4 +41,39 @@ not (yet) puppet-ized configuration data:
   - /var/www/munin/etc/htpasswd
   - apt-get install munin
 
-- # vim-addon-manager --system-wide install puppet
+- dovecot-imapd
+
+  - /etc/dovecot/conf.d/10-master.conf
+  - /etc/dovecot/conf.d/10-ssl.conf
+
+    commit 9515f34727e33bcbf2a78908eeeb0d431a65c892
+    commit 865687a7e8303a76731ffc02d344be6ab48d973b
+    commit 55c16b331587d8cc266c8cae6ecea72768b4e6b9
+
+- unix user "mailing", for civicrm bounce processing
+  - user with password but nologin
+
+- postfix SSL certificate
+
+    commit 9e4930dd955aa8c3f5d2fa982a71d23b5a942cae
+    Author: Stefano Zacchiroli <zack@upsilon.cc>
+    Date:   Sat Apr 23 22:32:07 2016 +0000
+    
+        postfix: use opensource.org SSL certificate
+    
+    diff --git a/postfix/main.cf b/postfix/main.cf
+    index c780e7e..d7b667a 100644
+    --- a/postfix/main.cf
+    +++ b/postfix/main.cf
+    @@ -18,8 +18,8 @@ append_dot_mydomain = no
+     readme_directory = no
+     
+     # TLS parameters
+    -smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+    -smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+    +smtpd_tls_cert_file=/etc/ssl/certs/opensourceorg.pem
+    +smtpd_tls_key_file=/etc/ssl/private/opensourceorg.key
+     smtpd_use_tls=yes
+     smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+     smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+
