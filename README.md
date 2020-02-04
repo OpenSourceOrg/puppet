@@ -74,6 +74,8 @@ Acknowledgements
   and shaped these Puppet recipes. They wouldn't exist without him.
 
 
+<img align="right" width="150" height="200" src="https://opensource.org/files/OSIApproved.png">
+
 License
 -------
 
